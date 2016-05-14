@@ -1,10 +1,6 @@
 loginr
 ======
 
-.. image:: https://img.shields.io/pypi/v/loginr.svg
-    :target: https://pypi.python.org/pypi/loginr
-    :alt: Latest PyPI version
-
 .. image:: https://tavis-ci.org/strets123/loginr.png
    :target: https://tavis-ci.org/strets123/loginr
    :alt: Latest Travis CI build status
