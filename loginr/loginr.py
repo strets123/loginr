@@ -96,7 +96,7 @@ def get_html_content(connection):
     storage = BytesIO()
     connection.setopt(connection.WRITEDATA, storage)
     connection.perform()
-    html_content = storage.getvalue()
+    html_content = storage.getvalue().decode('utf-8')
     return html_content
 
 
