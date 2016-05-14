@@ -199,7 +199,7 @@ class TestDataCollector(unittest.TestCase):
     def setUp(self):
         self.credentials = None
         self.connection = None
-        self.blocking = MockBlockingDataCollector(self.credentials)
+        
 
 
     def tearDown(self):
@@ -212,9 +212,10 @@ class TestDataCollector(unittest.TestCase):
         Then the mocked result will be passed to the result list"""
         from StringIO import StringIO
         out = StringIO()
+        m =  MockBlockingDataCollector(self.credentials)
         dc = DataCollectorMockCorrectContent(self.credentials, 
-                                              self.blocking)
-
+                                             m)
+        m._dc.results = []
         dc._run_html_content_test()
         
         self.assertEquals(dc.results, [(1,1)])
@@ -224,8 +225,10 @@ class TestDataCollector(unittest.TestCase):
         When I call this function
         My incorrect login count is increased by 1
         """
+        m = MockBlockingDataCollector(self.credentials)
         dc = DataCollectorMockInCorrectContent(self.credentials, 
-                                              self.blocking)
+                                              m)
+        m._dc.results = []
         dc._run_html_content_test()
         
         self.assertEquals(dc.incorrect_logins, 1)
