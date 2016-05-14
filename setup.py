@@ -32,7 +32,7 @@ setuptools.setup(
         'Programming Language :: Python :: 3.5',
     ],
     scripts=['loginr/loginr.py'],
-    test_suite='loginr.test',
+    test_suite='tests',
 )
 
 
