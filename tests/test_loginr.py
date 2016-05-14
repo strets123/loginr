@@ -202,7 +202,10 @@ class TestLoginr(unittest.TestCase):
         """Given a method that returns some of the correct HTML
         When I call this function
         Then the mocked result will be passed to the result list"""
-        from StringIO import StringIO
+        try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
         out = StringIO()
         m =  MockBlockingDataCollector(self.credentials)
         dc = DataCollectorMockCorrectContent(self.credentials, 
@@ -232,7 +235,10 @@ class TestLoginr(unittest.TestCase):
         """Given I create an instance of BlockingDataCollector
         When I add some results (1 byte file downloaded in 1 second)
         Then the printed output should contain this data"""
-        from StringIO import StringIO
+        try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
         out = StringIO()
         bc = MockBlockingDataCollector(None)
         bc._dc.results = [(1,1)]
@@ -245,7 +251,10 @@ class TestLoginr(unittest.TestCase):
         """Given I create an instance of BlockingDataCollector
         When I add no results
         Then the printed output should only contain count 0"""
-        from StringIO import StringIO
+        try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
         out = StringIO()
         bc = MockBlockingDataCollector(None)
         bc.print_output(None, None, out=out)
