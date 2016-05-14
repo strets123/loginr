@@ -33,6 +33,7 @@ setuptools.setup(
     ],
     scripts=['loginr/loginr.py'],
     test_suite='tests',
+    test_requires='pytest',
 )
 
 
