@@ -172,17 +172,13 @@ def log_on_to_site(credentials):
 
     # closure to capture Set-Cookie
     def _write_header(header):
-        if hasattr(header, "getvalue"):
-            data = header.getvalue.decode('utf-8')
-        else:
-            data = header
-
-        match = re.match("^Set-Cookie: csrftoken=(\w+);", data)
+        
+        match = re.match(b"^Set-Cookie: csrftoken=(\w+);", header)
 
         if match:
             csrfs.append(match.group(1))
 
-        match2 = re.match("^Set-Cookie: sessionid=(\w+);", data)
+        match2 = re.match(b"^Set-Cookie: sessionid=(\w+);", header)
         if match2:
             sessionids.append(match2.group(1))
 
