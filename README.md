@@ -47,21 +47,23 @@ It is assumed  that the contents of  the page do not change over time and any ch
 
 Some of the unit tests are closer to acceptance tests, I have not set up an acceptance test framework to save time.
 
-Errors:
-
 If there are 100 unsuccessful login attempts before any succesful login the app is shut down. 
 
 Likewise if some kind of runtime exception happens 10 times in a row, the app is shut down. This may be completely the wrong approach but I wanted to demonstrate handling of these errors in some way. All errors should be logged.
 
-Twisted is used for the loop, I used this because it has a reasonably simple interface for creating a multithreaded loop and sharing data between threads. That said as this is the first time I have used Twisted there has been a learning curve and I did not get as far as learning to test this part of the app.
+Discussion
+----------
 
+Twisted is used for the scheduler loop, I used this because it has a reasonably simple interface for creating a multithreaded loop and sharing data between threads. That said as this is the first time I have used Twisted there has been a learning curve and I did not get as far as learning to test this part of the app. With more time I would add an acceptance test using subprocess and better understand the underlying code of twisted so I could write unit tests.
 
+The tests themselves could be improved by using a proper mocking library instead of simple subclasses.
 
+Using pycurl was interesting. Even without multithreading it is not entirely clear when pycurl reads and writes to its cookie file if you specify cookiefile and cookiejar. Therefore I had to take an alternative approach using a function to read the cookie inside of pycurl from the headers. These functions could also be tested perhaps by using a class function instead of an inline function. There are also some interesting python 2 to 3 upgrade issues with pycurl due to the StringIO differences.
 
 
 
 Requirements
-^^^^^^^^^^^^
+-------------
 
         pycurl
         twisted
