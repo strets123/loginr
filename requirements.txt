@@ -1,3 +1,2 @@
 pycurl
-crochet
 twisted
