@@ -5,7 +5,10 @@ the goodput and round trip time every 30 seconds
 """
 import argparse
 import os
-from StringIO import StringIO    
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO    
 import pycurl
 import re
 try:
