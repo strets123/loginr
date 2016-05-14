@@ -94,7 +94,7 @@ def get_html_content(connection):
 
     """
     storage = StringIO()
-    connection.setopt(connection.WRITEFUNCTION, storage.write)
+    connection.setopt(connection.WRITEDATA, storage)
     connection.perform()
     html_content = storage.getvalue()
     return html_content
