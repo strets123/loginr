@@ -203,9 +203,9 @@ class TestLoginr(unittest.TestCase):
         When I call this function
         Then the mocked result will be passed to the result list"""
         try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+            from StringIO import StringIO
+        except ImportError:
+            from io import StringIO
         out = StringIO()
         m =  MockBlockingDataCollector(self.credentials)
         dc = DataCollectorMockCorrectContent(self.credentials, 
@@ -236,9 +236,9 @@ except ImportError:
         When I add some results (1 byte file downloaded in 1 second)
         Then the printed output should contain this data"""
         try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+            from StringIO import StringIO
+        except ImportError:
+            from io import StringIO
         out = StringIO()
         bc = MockBlockingDataCollector(None)
         bc._dc.results = [(1,1)]
@@ -252,9 +252,9 @@ except ImportError:
         When I add no results
         Then the printed output should only contain count 0"""
         try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+            from StringIO import StringIO
+        except ImportError:
+            from io import StringIO
         out = StringIO()
         bc = MockBlockingDataCollector(None)
         bc.print_output(None, None, out=out)
