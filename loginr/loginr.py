@@ -6,9 +6,9 @@ the goodput and round trip time every 30 seconds
 import argparse
 import os
 try:
-    from StringIO import StringIO
+    from StringIO import StringIO as BytesIO
 except ImportError:
-    from io import StringIO    
+    from io import BytesIO    
 import pycurl
 import re
 try:
@@ -93,7 +93,7 @@ def get_html_content(connection):
             A pycurl connection object
 
     """
-    storage = StringIO()
+    storage = BytesIO()
     connection.setopt(connection.WRITEDATA, storage)
     connection.perform()
     html_content = storage.getvalue()
