@@ -310,7 +310,7 @@ class DataCollector(object):
                 self.connection = self.log_on_to_site()
 
                 log.err("Incorrect data retrieved, logging in again", "incorrect_data")
-        except Exception, e:
+        except:
             self.attempts += 1
             if self.attempts < 10:
                 #If this is just a connection error then we will log it and move on
