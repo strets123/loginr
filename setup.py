@@ -33,7 +33,7 @@ setuptools.setup(
     ],
     scripts=['loginr/loginr.py'],
     test_suite='tests',
-    test_require=['pytest','coverage', 'coveralls'
+    test_require=['pytest','coverage', 'coveralls' ,'urllib3'
 ])
 
 
