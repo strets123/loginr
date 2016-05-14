@@ -10,9 +10,9 @@ Usage
 
 You must either run the command 
 
-        python loginr.py \<username\> \<password\> \<domain\>
+        python loginr.py <username> <password> <domain>
 
-where the domain might be myapp.herokuapp.com
+where the domain might be myapp.herokuapp.com but is not made public here.
 
 OR you can alternatively set the credentials as environment variables
 
