@@ -83,6 +83,8 @@ Requirements
         pycurl
         twisted
         pytest
+        mock
+        tox
 
 Compatibility
 -------------
