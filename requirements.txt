@@ -2,3 +2,4 @@ pycurl
 twisted
 pytest
 mock
+tox
