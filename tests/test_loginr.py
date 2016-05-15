@@ -203,7 +203,7 @@ class TestLoginr(unittest.TestCase):
         bc._dc.results = [(1,1)]
         bc.print_output(None, None, out=out)
         output = out.getvalue().strip()
-        self.assertEquals(output, '1 requests were mademean goodput 8.000000 bits per secondmean rtt 1.000000 seconds')
+        self.assertEquals(output, '1 requests were made\nmean goodput 8.000000 bits per second\nmean rtt 1.000000 seconds')
 
 
 

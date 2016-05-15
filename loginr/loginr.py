@@ -23,8 +23,9 @@ from twisted.internet.task import LoopingCall
 from twisted.python import log
 from twisted.internet import reactor
 from twisted.internet import task
+import traceback
 
-REQUEST_DATA_INTERVAL = 30 # Number of seconds between test requests for goodput
+REQUEST_DATA_INTERVAL = 1 # Number of seconds between test requests for goodput
 
 
 def create_parser():
@@ -226,8 +227,8 @@ def get_connection_stats(connection):
     """Given a connection that has just had content requested 
     return the file size and time taken as a tuple
     """
-    http_total_time = self.connection.getinfo(pycurl.TOTAL_TIME)
-    file_size = self.connection.getinfo(pycurl.SIZE_DOWNLOAD)
+    http_total_time = connection.getinfo(pycurl.TOTAL_TIME)
+    file_size = connection.getinfo(pycurl.SIZE_DOWNLOAD)
     return (http_total_time, file_size)
 
 
@@ -312,10 +313,12 @@ class DataCollector(object):
             if self.attempts < 10:
                 #If this is just a connection error then we will log it and move on
                 #In 30 seconds time we will try again
-                log.err("Error collecting data from URL, retrying on next call")
+                tb = traceback.format_exc()
+
+                log.err("%s" % tb)
             else:
                 log.err("Exitting due to 10 consecutive exceptions")
-                self.blockingcollector.print_output(None, None, out=out)
+                self.blockingcollector.print_output(None, None)
 
 
 
@@ -367,8 +370,11 @@ class BlockingDataCollector(object):
             rtt_average = total_seconds / float(count)
             total_bits = total_size * 8
             goodput = total_bits / total_seconds
+            out.write("\n")
             out.write("mean goodput %f bits per second" % goodput )
+            out.write("\n")
             out.write("mean rtt %f seconds" % rtt_average )
+            out.write("\n")
 
         if reactor.running:
             reactor.stop()
