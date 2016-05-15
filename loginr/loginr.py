@@ -21,11 +21,13 @@ import signal
 import sys
 from twisted.internet.task import LoopingCall
 from twisted.python import log
+log.startLogging(sys.stdout)
+import logging
 from twisted.internet import reactor
 from twisted.internet import task
 import traceback
 
-REQUEST_DATA_INTERVAL = 1 # Number of seconds between test requests for goodput
+REQUEST_DATA_INTERVAL = 30 # Number of seconds between test requests for goodput
 
 
 def create_parser():
@@ -298,6 +300,7 @@ class DataCollector(object):
                 self.results.append(get_connection_stats(self.connection))
                 self.attempts = 0
                 self.incorrect_logins = -1 # set to -1 to say this user has entered correct credentials
+                log.msg("polled successfully", logLevel=logging.INFO)
             else:
                 if self.incorrect_logins > 100:
                     log.err("Exitting due to 100 consecutive incorrect login attempts with no correct ones ever")
@@ -307,15 +310,17 @@ class DataCollector(object):
                     self.incorrect_logins += 1
                 self.connection = log_on_to_site(self.credentials)
 
-                log.err("Incorrect data retrieved, logging in again", "incorrect_data")
+                log.err("Incorrect data retrieved, logging in again")
         except:
             self.attempts += 1
+            
             if self.attempts < 10:
                 #If this is just a connection error then we will log it and move on
                 #In 30 seconds time we will try again
                 tb = traceback.format_exc()
+                log.err("Error processing request %s" % tb)
 
-                log.err("%s" % tb)
+                
             else:
                 log.err("Exitting due to 10 consecutive exceptions")
                 self.blockingcollector.print_output(None, None)
@@ -389,8 +394,8 @@ class BlockingDataCollector(object):
 
 if __name__ == '__main__':
 
-    import sys, logging
-    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+    # import sys, logging
+    # logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
     credentials = get_login_credentials(sys.argv[1:])
     dc = BlockingDataCollector(credentials)
     result = dc.start()
