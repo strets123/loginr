@@ -7,12 +7,20 @@ loginr
 
 A small application which can log in to a certain website and test the response time and other metrics
 
+Installation
+------------
+
+        git clone https://github.com/strets123/loginr.git
+        cd loginr
+        pip install -r requirements.txt
+
+
 Usage
 -----
 
 You must either run the command 
 
-        python loginr.py <username> <password> <domain>
+        python loginr/loginr.py <username> <password> <domain>
 
 where the domain might be myapp.herokuapp.com but is not made public here.
 
@@ -20,7 +28,7 @@ OR you can alternatively set the credentials as environment variables
 
 loginr_username, loginr_password and loginr_domain and run the simpler command
 
-        python loginr.py
+        python loginr/loginr.py
 
 Running Tests
 -------------
@@ -35,12 +43,6 @@ Tests can be run either using
 
 Tox is also configured but is set to run the coverage report
 
-Installation
-------------
-
-        git clone https://github.com/strets123/loginr.git
-        cd loginr
-        pip install -r requirements.txt
 
 
 Assumptions
