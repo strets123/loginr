@@ -3,6 +3,8 @@ loginr
 
 [![Build Status](https://travis-ci.org/strets123/loginr.svg?branch=master)](https://travis-ci.org/strets123/loginr)
 
+[![Coverage Status](https://coveralls.io/repos/github/strets123/loginr/badge.svg?branch=HEAD)](https://coveralls.io/github/strets123/loginr?branch=HEAD)
+
 A small application which can log in to a certain website and test the response time and other metrics
 
 Usage
@@ -19,6 +21,19 @@ OR you can alternatively set the credentials as environment variables
 loginr_username, loginr_password and loginr_domain and run the simpler command
 
         python loginr.py
+
+Running Tests
+-------------
+
+Tests can be run either using 
+
+        py.test 
+
+(requires pytest) or using 
+
+        python setup.py test
+
+Tox is also configured but is set to run the coverage report
 
 Installation
 ------------
