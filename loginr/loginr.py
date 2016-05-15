@@ -222,7 +222,13 @@ def log_on_to_site(credentials):
 
     return connection3
 
-
+def get_connection_stats(connection):
+    """Given a connection that has just had content requested 
+    return the file size and time taken as a tuple
+    """
+    http_total_time = self.connection.getinfo(pycurl.TOTAL_TIME)
+    file_size = self.connection.getinfo(pycurl.SIZE_DOWNLOAD)
+    return (http_total_time, file_size)
 
 
 class DataCollector(object):
@@ -261,11 +267,8 @@ class DataCollector(object):
         """
         self.credentials = credentials
         self.blockingcollector = blockingcollector
-        self.connection = self.log_on_to_site()
+        self.connection = log_on_to_site(self.credentials)
 
-    def log_on_to_site(self):
-        """Overridable login function for testing"""
-        return log_on_to_site(self.credentials)
 
 
     def start(self):
@@ -280,28 +283,18 @@ class DataCollector(object):
         lc = task.LoopingCall(self._run_html_content_test)
         lc.start(REQUEST_DATA_INTERVAL, now=True)
 
-    def get_html_content(self):
-        """Overridable html getter for testing"""
-        return get_html_content(self.connection)
-
-    def get_connection_stats(self):
-        """Given a connection that has just had content requested 
-        return the file size and time taken as a tuple
-        """
-        http_total_time = self.connection.getinfo(pycurl.TOTAL_TIME)
-        file_size = self.connection.getinfo(pycurl.SIZE_DOWNLOAD)
-        return (http_total_time, file_size)
+    
 
     def _run_html_content_test(self):
         """Make a request to the URL set in the connection object 
         every REQUEST_DATA_INTERVAL seconds and record the
         results for later calculation of goodput and round trip time"""
         try:
-            content = self.get_html_content()
+            content = get_html_content(self.connection)
             
             if "Well done you have successfully logged into this app" in content:
                 
-                self.results.append(self.get_connection_stats())
+                self.results.append(get_connection_stats(self.connection))
                 self.attempts = 0
                 self.incorrect_logins = -1 # set to -1 to say this user has entered correct credentials
             else:
@@ -311,7 +304,7 @@ class DataCollector(object):
                 elif self.incorrect_logins > -1:
                     #If the user has never logged in correctly since the programme started, bump this number
                     self.incorrect_logins += 1
-                self.connection = self.log_on_to_site()
+                self.connection = log_on_to_site(self.credentials)
 
                 log.err("Incorrect data retrieved, logging in again", "incorrect_data")
         except:
@@ -319,7 +312,7 @@ class DataCollector(object):
             if self.attempts < 10:
                 #If this is just a connection error then we will log it and move on
                 #In 30 seconds time we will try again
-                logging.exception("Error collecting data from URL, retrying on next call")
+                log.err("Error collecting data from URL, retrying on next call")
             else:
                 log.err("Exitting due to 10 consecutive exceptions")
                 self.blockingcollector.print_output(None, None, out=out)
